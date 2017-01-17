@@ -7,6 +7,9 @@ package webapi;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -31,21 +34,45 @@ public class MonitorConsole extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
+        Enumeration e = request.getParameterNames() ;
+        String sessionid="";
+        String id="";
+        String rtype="json";
+        String behaviour="immediate";
+        while ( e.hasMoreElements() )
+			{
+				String tField = e.nextElement().toString().toLowerCase().trim();
+				if (tField.equals("session"))
+				{
+					sessionid = request.getParameter(tField);        
+				}else if (tField.equals("id"))
+				{
+					id = request.getParameter(tField);
+				}else if (tField.equals("rtype"))
+				{
+					rtype = request.getParameter(tField);
+				}
+                                else if (tField.equals("behaviour"))
+				{
+					behaviour = request.getParameter(tField);
+				}
+		    }
+        if(behaviour==null||!(behaviour.equals("immediate")||behaviour.equals("w4o"))){
+          behaviour="immediate";
+        }
+        
+        if(rtype==null||!(rtype.equals("json")||rtype.equals("html"))){
+          rtype="json";
+        }
+        
+        setContentTypeI(rtype,response);
+        String respout=getResult(rtype,sessionid,id,behaviour);
+        PrintWriter out=null;
         try {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet MonitorConsole</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet MonitorConsole at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        } finally {
-            out.close();
+            out = response.getWriter();
+            out.println(respout);
+        }finally{
+        if(out!=null)out.flush();
         }
     }
 
@@ -88,4 +115,86 @@ public class MonitorConsole extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
+    private void setContentTypeI(String rtype, HttpServletResponse response) {
+        switch(rtype){
+            case "html":
+                response.setContentType("text/html;charset=UTF-8");
+                break;
+            default:
+                response.setContentType("application/json;charset=UTF-8");
+                break;
+
+        }
+    }
+
+    private String getResult(String rtype, String sessionid, String id, String behaviour) {
+        List<String[]> ret;
+        String respout="";
+        if(behaviour.equals("w4o"))
+        {
+        ret=initiateclients(false,sessionid,id);
+        }else{
+        ret=initiateclients(true,sessionid,id);
+        }
+        switch(rtype){
+            case "html":
+                respout="<!DOCTYPE html>";
+            respout+="<html>";
+            respout+="<head>";
+            respout+="<title>Runlink</title>";            
+            respout+="</head>";
+            respout+="<body><div id=\"data\">";
+            for(String r[]:ret){
+                  if(r!=null&&r.length>0&&r[0].trim().length()>0){
+                      respout+="<div>"+r[0]+"</div><div>"+(r.length>1&&r[1].trim().length()>0?r[1].trim():"")+"</div><br>";
+                  }
+                }
+            respout+="</div></body>";
+            respout+="</html>";
+                break;
+            default:
+                respout="{";
+                for(String r[]:ret){
+                  if(r!=null&&r.length>0&&r[0].trim().length()>0){
+                      respout+="\""+r[0]+"\":\""+(r.length>1&&r[1].trim().length()>0?r[1].trim():"")+"\",";
+                  }
+                }
+                respout+="}";
+                break;
+
+        }
+        return respout;
+    }
+
+    private List<String[]> initiateclients(boolean nowait, String sessionid, String id) {
+        
+        List<String[]> result=new ArrayList<>(1);
+        ClientRuner cr=new ClientRuner(sessionid,id);
+        String pccheck[]=cr.precondition();
+        
+        if(nowait){
+        //begin thread within client a side and immediate return "process"
+        Thread __th = new Thread(cr, sessionid);
+        if(pccheck[0].equals("200")){
+        __th.start();
+        result.add(new String[]{"started","process"});
+        }else{
+         result.add(new String[]{"abandoned","process"});
+         result.add(new String[]{"reason","precondition"});
+        }
+        
+        }else{
+         //execute client regular way and return real status 
+         if(pccheck[0].equals("200")){
+         result=cr.runlocal();
+         result.add(new String[]{"started","immediate"});
+         }else{
+         result.add(new String[]{"abandoned","process"});
+         result.add(new String[]{"reason","precondition"});
+        }
+        }
+        result.add(new String[]{"reasoncode",pccheck[0]});
+        result.add(new String[]{"reasondesc",pccheck[1]});
+        return result;
+    }
 }

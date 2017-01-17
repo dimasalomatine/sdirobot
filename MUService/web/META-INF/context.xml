@@ -1,2 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Context antiJARLocking="true" path="/SDIRPI_MUService"/>
+<Context antiJARLocking="true" path="/SDIRPI_MUService">
+<Resource 
+          name="jdbc/imp" 
+          url="jdbc:sqlserver://192.168.9.86\sqlexpress2014;databaseName=rpirobotapp;" 
+          validationQuery="SELECT 1;"
+          maxActive="5" 
+          initialSize="5"         
+          minIdle="5"
+          username="sa2" 
+          password="sa" 
+          type="javax.sql.DataSource" 
+          auth="Container" 
+          factory="org.apache.tomcat.jdbc.pool.DataSourceFactory" 
+          driverClassName="com.microsoft.sqlserver.jdbc.SQLServerDriver"
+          testWhileIdle="true"
+          testOnBorrow="false"
+          removeAbandoned="true"
+          removeAbandonedTimeout="300"
+          timeBetweenEvictionRunsMillis="34000" 
+          minEvictableIdleTimeMillis="55000"
+          validationInterval="34000"
+          fairQueue="true"
+  />
+  <Resource 
+          name="jdbc/imp_test" 
+          url="jdbc:sqlserver://192.168.9.29\sqlexpress2014;databaseName=rpirobotapptest;" 
+          validationQuery="SELECT 2;"
+          maxActive="5" 
+          initialSize="5"         
+          minIdle="5"
+          username="sa2" 
+          password="sa" 
+          type="javax.sql.DataSource" 
+          auth="Container" 
+          factory="org.apache.tomcat.jdbc.pool.DataSourceFactory" 
+          driverClassName="com.microsoft.sqlserver.jdbc.SQLServerDriver"
+          testWhileIdle="true"
+          testOnBorrow="false"
+          removeAbandoned="true"
+          removeAbandonedTimeout="300"
+          timeBetweenEvictionRunsMillis="34000" 
+          minEvictableIdleTimeMillis="55000"
+          validationInterval="34000"
+          fairQueue="true"
+  />
+  <ResourceParams name="jdbc/imp">
+    <parameter>
+      <name>maxActive</name>
+      <value>80</value>
+    </parameter>
+  </ResourceParams>
+  <ResourceParams name="jdbc/imp_test">
+    <parameter>
+      <name>maxActive</name>
+      <value>80</value>
+    </parameter>
+  </ResourceParams>
+</Context>

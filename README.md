@@ -6,7 +6,7 @@
 
 ###### Content
 **Additional Software and libs:**	
->0. **pi4j install using sudo dpkg -i pi4j-1.1.deb
+>0. **pi4j install using sudo dpkg -i pi4j-1.1.deb or see http://pi4j.com/install.html
 >1.	**wiringpi** Gordons library to talk with pins and devices on RaspberryPi
 >2.	**Festival** is an text to speech engine
 >3.	**Pocketsphinx** is an Speech Recognition engine

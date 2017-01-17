@@ -20,6 +20,25 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "InitStatic", urlPatterns = {"/InitStatic"})
 public class InitStatic extends HttpServlet {
 
+    public InitStatic(){
+    super();
+    //do
+    
+    }
+    @Override
+    public void init() throws ServletException {   
+    super.init();
+    //do
+    String __initpi4j = getServletConfig().getInitParameter("initpi4j");
+    if(Boolean.parseBoolean(__initpi4j)){
+     StaticHolder.getInstance();
+    }
+    }
+    @Override
+    public void destroy(){
+        //do
+    super.destroy();
+    }
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
