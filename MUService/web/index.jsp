@@ -28,7 +28,7 @@
             var sessv=$("#oo_sessionid").val();
             var rtypev=$("#oo_rtype").val();
             var behv=$("#oo_behaviour").val();
-            $.get("Runlink?id="+idv+"&session="+sessv+"&rtype="+rtypev+"&behaviour="+behv, function(data, status){
+            $.get("MonitorConsole?id="+idv+"&session="+sessv+"&rtype="+rtypev+"&behaviour="+behv, function(data, status){
             if(status==='success'){
              alert("Data received: " + data.responce + "\nWith status: " + status);
              eval(data.responce);
@@ -42,7 +42,7 @@
         var sessv=$("#oo_sessionid").val();
         var rtypev=$("#oo_rtype").val();
         var behv=$("#oo_behaviour").val();
-            $.post("Runlink",
+            $.post("MonitorConsole",
             {
         id: idv,
         session: sessv,
@@ -65,17 +65,17 @@
         <h1>RoboPi</h1>
         <div class="panel panel-info">
             <div class="panel-heading">
-              <h3 class="panel-title">סימולציה לטריגר</h3>
+              <h3 class="panel-title">Triger Simulation</h3>
             </div>
             <div class="panel-body">
                 <form action="#" id="iframeDemoForm">
                 
-                <p><label for="oo_id" >ת.ז:</label><input type="text"  id="oo_id" class="form-control" size="20" value="123456782"></p>
-                <p><label for="oo_sessionid" >ססיה:</label><input type="text"  id="oo_sessionid" class="form-control" size="10" value="abcdef123456"></p>
-                <p><label for="oo_rtype" >ססיה:</label><input type="text"  id="oo_rtype" class="form-control" size="10" value="json"></p>
-                <p><label for="oo_behaviour" >התנהגות</label><input type="text"  id="oo_behaviour" class="form-control" size="10" value="immediate" ></p>
-                <p><input type="button" class="btn btn-lg btn-primary btn-block" value="סימולציה GET" id="btnsg"></p>
-                <p><input type="button" class="btn btn-lg btn-primary btn-block" value="סימולציהPOST" id="btnsp"></p>
+                <p><label for="oo_id" >CIV. ID:</label><input type="text"  id="oo_id" class="form-control" size="20" value="123456782"></p>
+                <p><label for="oo_sessionid" >SESSION</label><input type="text"  id="oo_sessionid" class="form-control" size="10" value="abcdef123456"></p>
+                <p><label for="oo_rtype" >RTYPE</label><input type="text"  id="oo_rtype" class="form-control" size="10" value="json"></p>
+                <p><label for="oo_behaviour" >Behaviour</label><input type="text"  id="oo_behaviour" class="form-control" size="10" value="immediate" ></p>
+                <p><input type="button" class="btn btn-lg btn-primary btn-block" value="Do GET" id="btnsg"></p>
+                <p><input type="button" class="btn btn-lg btn-primary btn-block" value="Do POST" id="btnsp"></p>
 
                 </form>
             </div>
