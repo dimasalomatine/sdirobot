@@ -8,6 +8,18 @@
             <param-name> initpi4j </param-name>
             <param-value> false </param-value>
         </init-param>
+        <init-param>
+            <param-name> dbtype </param-name>
+            <param-value> pg </param-value>
+        </init-param>
+        <init-param>
+            <param-name> env </param-name>
+            <param-value>  </param-value>
+        </init-param>
+    </servlet>
+    <servlet>
+        <servlet-name>Enter</servlet-name>
+        <servlet-class>webapi.Enter</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>InitStatic</servlet-name>
@@ -16,7 +28,7 @@
     <servlet>
         <servlet-name>MonitorConsole</servlet-name>
         <servlet-class>webapi.MonitorConsole</servlet-class>
-         <load-on-startup>200</load-on-startup>
+        <load-on-startup>200</load-on-startup>
     </servlet>
     <servlet-mapping>
         <servlet-name>MonitorConsole</servlet-name>
@@ -25,11 +37,15 @@
     <servlet>
         <servlet-name>WorkerApi</servlet-name>
         <servlet-class>webapi.WorkerApi</servlet-class>
-         <load-on-startup>200</load-on-startup>
+        <load-on-startup>200</load-on-startup>
     </servlet>
     <servlet-mapping>
         <servlet-name>WorkerApi</servlet-name>
         <url-pattern>/WorkerApi</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Enter</servlet-name>
+        <url-pattern>/Enter</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

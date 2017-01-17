@@ -7,6 +7,12 @@ package webapi;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingEnumeration;
+import javax.naming.NamingException;
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -19,21 +25,59 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "InitStatic", urlPatterns = {"/InitStatic"})
 public class InitStatic extends HttpServlet {
+    
+    private static final CManagerMap _m_conn = new CManagerMap();
+    private static Context _ctx;
+    private static ServletContext _ctx2;
+    private  ServletConfig sc = getServletConfig();
 
     public InitStatic(){
     super();
     //do
     
     }
+    private void initmy(){
+    
+    String __initpi4j = getServletConfig().getInitParameter("initpi4j");
+    String __testenv = getServletConfig().getInitParameter("env");
+    String __dbtype = getServletConfig().getInitParameter("dbtype");
+    
+    Info.dbcon=(!__testenv.isEmpty()?__testenv+"_":"")+"rpirobotapp"+"_"+__dbtype;
+    
+    if(Boolean.parseBoolean(__initpi4j)){
+     StaticHolder.getInstance();
+    }
+
+        try {
+            if(sc!=null)
+            {
+            _ctx2 = sc.getServletContext();
+            _ctx = new InitialContext();
+            _ctx = (Context) _ctx.lookup("java:comp/env");
+            NamingEnumeration e = _ctx.listBindings("jdbc");
+            CManagerMap.enumerate(_ctx, e, "jdbc");
+            _ctx.close();
+            }
+        } catch (NamingException n) {
+            System.out.println(n.getMessage());
+        }
+    
+    }
     @Override
     public void init() throws ServletException {   
     super.init();
     //do
-    String __initpi4j = getServletConfig().getInitParameter("initpi4j");
-    if(Boolean.parseBoolean(__initpi4j)){
-     StaticHolder.getInstance();
+    initmy();
+    
+    
     }
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        if(sc==null)sc=config;
+        initmy();
     }
+    
     @Override
     public void destroy(){
         //do

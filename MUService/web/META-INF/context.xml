@@ -1,7 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Context antiJARLocking="true" path="/SDIRPI_MUService">
+    <Resource 
+       auth="Container" 
+        driverClassName="org.postgresql.Driver" 
+        factory="org.apache.tomcat.jdbc.pool.DataSourceFactory"
+        initialSize="2" 
+        maxActive="2" 
+        name="jdbc/rpirobotapp_pg" 
+        password="123456" 
+        removeAbandoned="true" 
+        removeAbandonedTimeout="55" 
+        testOnBorrow="false" 
+        testWhileIdle="true" 
+        timeBetweenEvictionRunsMillis="34000" 
+        type="javax.sql.DataSource" 
+        url="jdbc:postgresql://localhost:5432/rpirobotapp" 
+        characterEncoding="UTF8"
+        username="postgres" 
+        validationInterval="30000" 
+        validationQuery="SELECT 101;"
+    />
+    <Resource 
+       auth="Container" 
+        driverClassName="org.postgresql.Driver" 
+        factory="org.apache.tomcat.jdbc.pool.DataSourceFactory"
+        initialSize="2" 
+        maxActive="2" 
+        name="jdbc/test_rpirobotapp_pg" 
+        password="123456" 
+        removeAbandoned="true" 
+        removeAbandonedTimeout="55" 
+        testOnBorrow="false" 
+        testWhileIdle="true" 
+        timeBetweenEvictionRunsMillis="34000" 
+        type="javax.sql.DataSource" 
+        url="jdbc:postgresql://localhost:5432/rpirobotapp" 
+        characterEncoding="UTF8"
+        username="postgres" 
+        validationInterval="30000" 
+        validationQuery="SELECT 101;"
+    />
 <Resource 
-          name="jdbc/imp" 
+          name="jdbc/rpirobotapp_mssql" 
           url="jdbc:sqlserver://192.168.9.86\sqlexpress2014;databaseName=rpirobotapp;" 
           validationQuery="SELECT 1;"
           maxActive="5" 
@@ -23,7 +63,7 @@
           fairQueue="true"
   />
   <Resource 
-          name="jdbc/imp_test" 
+          name="jdbc/test_rpirobotapp_mssql" 
           url="jdbc:sqlserver://192.168.9.29\sqlexpress2014;databaseName=rpirobotapptest;" 
           validationQuery="SELECT 2;"
           maxActive="5" 
@@ -44,13 +84,25 @@
           validationInterval="34000"
           fairQueue="true"
   />
-  <ResourceParams name="jdbc/imp">
+  <ResourceParams name="jdbc/rpirobotapp_pg">
     <parameter>
       <name>maxActive</name>
       <value>80</value>
     </parameter>
   </ResourceParams>
-  <ResourceParams name="jdbc/imp_test">
+  <ResourceParams name="jdbc/test_rpirobotapp_pg">
+    <parameter>
+      <name>maxActive</name>
+      <value>80</value>
+    </parameter>
+  </ResourceParams>
+  <ResourceParams name="jdbc/rpirobotapp_mssql">
+    <parameter>
+      <name>maxActive</name>
+      <value>80</value>
+    </parameter>
+  </ResourceParams>
+  <ResourceParams name="jdbc/test_rpirobotapp_mssql">
     <parameter>
       <name>maxActive</name>
       <value>80</value>
