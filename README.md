@@ -37,6 +37,7 @@ Booth runs same tomcat application but in different mode and interacts via http 
 Master will drive entire "organism" and since it stronger - will do some opencv and text to speach stuff
 Slaves will operate sensors ,motors ,buttons and leds as pin or i2c connected devices.
 Actually it is more likely relation CNS ->[sensor ,motor->[somatic , autonomous] divisions
+![NS Schema](https://github.com/dimasalomatine/sdirobot/blob/master/doc/NSdiagram.svg.png)
 >**Abilities:**
 Indor move
 Recognize faces ,objects etc
