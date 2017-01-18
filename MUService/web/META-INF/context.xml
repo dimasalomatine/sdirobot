@@ -7,7 +7,7 @@
         initialSize="2" 
         maxActive="2" 
         name="jdbc/rpirobotapp_pg" 
-        password="123456" 
+        password="pi" 
         removeAbandoned="true" 
         removeAbandonedTimeout="55" 
         testOnBorrow="false" 
@@ -16,7 +16,7 @@
         type="javax.sql.DataSource" 
         url="jdbc:postgresql://localhost:5432/rpirobotapp" 
         characterEncoding="UTF8"
-        username="postgres" 
+        username="rpilrole" 
         validationInterval="30000" 
         validationQuery="SELECT 101;"
     />
