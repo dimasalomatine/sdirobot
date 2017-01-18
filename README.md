@@ -10,9 +10,12 @@
 >1.	**wiringpi** Gordons library to talk with pins and devices on RaspberryPi
 >2.	**Festival** is an text to speech engine
 >3.	**Pocketsphinx** is an Speech Recognition engine
+>4. **Postgresql 9.3 on pi install
+>5. **sqllite see https://bitbucket.org/xerial/sqlite-jdbc
 
 **Hardware:**	
->1.	RPI Model B 2 rev 2
+>1.	RPI 3 Master
+>1.2.	RPI Model B 2 rev 2 as slave system
 >2.	Camera Module Board REV 1.3 5MP Webcam Video 1080p OV5647 For Raspberry Pi
 >3.	mcp 23017 E/SP dip 28
 >4.	uln2003
@@ -28,8 +31,17 @@
 >14.		... _more will be described here later_ ...
 
 >**Description:**
-
+Actually model as i view it in my mind consist of two or more rpi's 
+Master and slaves (like brain and ganglies or aux brains) - in the future i will be able to grow it and made grid by adding one more rpi
+Booth runs same tomcat application but in different mode and interacts via http or via rs232 protocol with MAX232 seria chip
+Master will drive entire "organism" and since it stronger - will do some opencv and text to speach stuff
+Slaves will operate sensors ,motors ,buttons and leds as pin or i2c connected devices.
+Actually it is more likely relation CNS ->[sensor ,motor->[somatic , autonomous] divisions
 >**Abilities:**
+Indor move
+Recognize faces ,objects etc
+Speak and listen for commands
+Simple AI script based with decision tree aproach
 
 >Come here more often to keep up to date :)
 >Also visit  [my site](hellcreator.esy.es)
