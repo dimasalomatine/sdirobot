@@ -31,18 +31,22 @@
 >14.		... _more will be described here later_ ...
 
 >**Description:**
+<pre>
 Actually model as i view it in my mind consist of two or more rpi's 
 Master and slaves (like brain and ganglies or aux brains) - in the future i will be able to grow it and made grid by adding one more rpi
 Booth runs same tomcat application but in different mode and interacts via http or via rs232 protocol with MAX232 seria chip
 Master will drive entire "organism" and since it stronger - will do some opencv and text to speach stuff
 Slaves will operate sensors ,motors ,buttons and leds as pin or i2c connected devices.
-Actually it is more likely relation CNS ->[sensor ,motor->[somatic , autonomous] divisions
+Actually it is more likely relation CNS ->(sensor ,motor->(somatic , autonomous)) divisions
+</pre>
 ![NS Schema](https://github.com/dimasalomatine/sdirobot/blob/master/doc/NSdiagram.svg.png)
+
 >**Abilities:**
-Indor move
-Recognize faces ,objects etc
-Speak and listen for commands
-Simple AI script based with decision tree aproach
+>1.	Indor move
+>2.	Recognize faces ,objects etc
+>3.	Metric distance by Ultrasonic module
+>4.	Speak and listen for commands
+>5.	Simple AI script based with decision tree aproach
 
 >Come here more often to keep up to date :)
 >Also visit  [my site](hellcreator.esy.es)
