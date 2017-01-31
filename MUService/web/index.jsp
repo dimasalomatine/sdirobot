@@ -26,19 +26,33 @@
          var g_burl="<%= request.getRequestURL() %>";
          var cusess="<%= session.getId() %>";
          
+         function genAct(_ctype,_atype,_pref,_id){
+             var __ret="";
+             switch(_ctype){
+                 case 'button':
+                 case 'div':
+                     __ret+='<'+_ctype+' id="'+_pref+'_'+_atype+_id+'" onClick=\''+_pref+'_'+_atype+'("'+_id+'")\'>'+_atype+'</'+_ctype+'>';
+                     break;
+             }
+             return __ret;
+             
+         }
+         
           function f1(_ob_refelid,_ob_dfi,_ob_data){
            $("#cur"+_ob_refelid+"title").html("...");
            $("#"+_ob_refelid).html(_ob_dfi);
+           $('#sim1').show();
        }
-       
+       var utype="";
        function f77(_ob_refelid,_ob_dfi,_ob_data){
            
            if( _ob_data.arr.length>0){
                var b=_ob_data.arr[0];
-               if(b==='ok'){
+               if(b==='su' || b==='weak' || b==='api'){
                   $('#'+_ob_refelid).hide(); 
                   $('#logout').show();
                   $('#nav').show();
+                  utype=b;
                }
           }
        }
@@ -51,14 +65,78 @@
                   $('#'+_ob_refelid).show(); 
                   $('#logout').hide();
                   $('#nav').hide();
+                  utype="";
                }
           }
        }
        
        
+      function host_Edit(_ob){
+          $("#v1_"+_ob).attr('contentEditable',true);
+          $("#v2_"+_ob).attr('contentEditable',true);
+          $("#v1_"+_ob).bind('blur',function(){
+              $(this).attr('contentEditable',false);
+          });
+          $("#v2_"+_ob).bind('blur',function(){
+              $(this).attr('contentEditable',false);
+          });
+          
+          
+      }
+      function host_Delete(_ob){
+          
+          
+      }
+      function host_Save(_ob){
+          
+          
+      }
+      function f5(_ob_refelid,_ob_dfi,_ob_data){
+           
+           $("#cur"+_ob_refelid+"title").html("Hosts");
+           $("#cur"+_ob_refelid+"title").show();
+           $("#"+_ob_refelid).html(_ob_dfi);
+           for(var a=0;a<_ob_data.arr.length;a++){
+               var b=_ob_data.arr[a];
+               $('#idhosts tr:last').after('<tr><td>'+b[0]+'</td><td><span id="v1_'+b[0]+'">'+b[1]+'</span></td><td><span id="v2_'+b[0]+'">'+b[2]+'</span></td><td><span id="v3_'+b[0]+'">'+b[3]+'</span></td><td>'+genAct('button','Edit','host',b[0])+genAct('button','Delete','host',b[0])+genAct('button','Save','host',b[0])+'</td></tr>');
+           }
+       }
+       
+       function user_Edit(_ob){
+          $("#v2_"+_ob).attr('contentEditable',true);
+          $("#v3_"+_ob).attr('contentEditable',true);
+          $("#v2_"+_ob).bind('blur',function(){
+              $(this).attr('contentEditable',false);
+          });
+          $("#v3_"+_ob).bind('blur',function(){
+              $(this).attr('contentEditable',false);
+          });
+          
+          
+      }
+      function user_Delete(_ob){
+          
+          
+      }
+      function user_Save(_ob){
+          
+          
+      }
+      
+       function f6(_ob_refelid,_ob_dfi,_ob_data){
+           
+           $("#cur"+_ob_refelid+"title").html("Users");
+           $("#cur"+_ob_refelid+"title").show();
+           $("#"+_ob_refelid).html(_ob_dfi);
+           for(var a=0;a<_ob_data.arr.length;a++){
+               var b=_ob_data.arr[a];
+               $('#idusers tr:last').after('<tr><td>'+b[0]+'</td><td><span id="v1_'+b[0]+'">'+b[1]+'</span></td><td><span id="v2_'+b[0]+'">'+b[2]+'</span></td><td><span id="v3_'+b[0]+'">'+b[3]+'</span></td><td>'+genAct('button','Edit','user',b[0])+genAct('button','Delete','user',b[0])+genAct('button','Save','user',b[0])+'</td></tr>');
+           }
+       }
+       
         
         $(document).ready(function(){
-      $("#main").click(function(){
+      $("#test1").click(function(){
         $.post("Enter",
         {
           op:"main",
@@ -69,7 +147,34 @@
             var a_contentbx=jQuery.parseJSON(data);
             eval(a_contentbx.reffunc+'(a_contentbx.refelid,a_contentbx.dfi,a_contentbx.data)');
         });
-    });    
+    });   
+    
+    $("#hosts").click(function(){
+        $.post("Enter",
+        {
+          op:"hosts",
+          refelid:"contentbx",
+          reffunc:"f5"
+        },
+        function(data,status){
+            var a_contentbx=jQuery.parseJSON(data);
+            eval(a_contentbx.reffunc+'(a_contentbx.refelid,a_contentbx.dfi,a_contentbx.data)');
+        });
+    });  
+    
+    $("#users").click(function(){
+        $.post("Enter",
+        {
+          op:"users",
+          refelid:"contentbx",
+          reffunc:"f6",
+          utype:utype
+        },
+        function(data,status){
+            var a_contentbx=jQuery.parseJSON(data);
+            eval(a_contentbx.reffunc+'(a_contentbx.refelid,a_contentbx.dfi,a_contentbx.data)');
+        });
+    }); 
     
     $("#logonsess").click(function(){
         var p=$("#psw").val();
@@ -186,7 +291,10 @@ article {
     </head>
     <body>
         <div class="container">
-        <header><h1>RoboPi</h1></header>
+            <header><span><div><font size=8>RoboPi</font></div>
+                    <div><font size=6>Pi:<%=Info.getPiInfo()%>
+                Db:<%=Info.getDBCon()%></font></div><img src="putty_logo_small.png"></span>
+        </header>
         <nav>
             
                 
@@ -199,14 +307,17 @@ article {
                 
                 <button id="logout" style="display:none;">Logout</button></li>
         <ul id="nav" style="display:none;">
-                <li><button id="main">Main</button></li>       
+               <li><button id="users">Users</button></li>
+               <li><button id="hosts">Hosts</button></li> 
+               <li><button id="test1">Test1</button></li> 
          </ul> 
         </nav>
         <article>
+        <h1 id="curcontentbxtitle">...</h1>
         <div id="contentbx"></div>
   
      
-  
+        <div id="sim1" style="display:none;">
         <div class="panel panel-info">
             <div class="panel-heading">
               <h3 class="panel-title">Triger Simulation</h3>
@@ -224,6 +335,10 @@ article {
                 </form>
             </div>
           </div>
+         </div>
+        <div id="sim2" style="display:none;">
+            
+        </div>
          </article>
     
         <script type="text/javascript">
@@ -246,8 +361,6 @@ article {
     </script>
     
     <footer>
-        Pi:<%=Info.getPiInfo()%>
-        Pi:<%=Info.getDBCon()%>
         Version:<%=Info.getVer()%>
         Mod:<%=Info.getMod()%>
     </footer>
