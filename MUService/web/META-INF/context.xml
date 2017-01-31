@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Context antiJARLocking="true" path="/SDIRPI_MUService">
-    <Resource 
+    <Resource name="jdbc/rpirobotapp_sqlite"
+    type="javax.sql.DataSource"
+    driverClassName="org.sqlite.JDBC"
+    url="jdbc:sqlite::memory:?cache=shared"
+    />
+    <Resource name="jdbc/test_rpirobotapp_sqlite"
+    type="javax.sql.DataSource"
+    driverClassName="org.sqlite.JDBC"
+    url="jdbc:sqlite::memory:?cache=shared"
+    />
+   <!-- <Resource 
        auth="Container" 
         driverClassName="org.postgresql.Driver" 
         factory="org.apache.tomcat.jdbc.pool.DataSourceFactory"
@@ -20,6 +30,13 @@
         validationInterval="30000" 
         validationQuery="SELECT 101;"
     />
+    <ResourceParams name="jdbc/rpirobotapp_pg">
+    <parameter>
+      <name>maxActive</name>
+      <value>80</value>
+    </parameter>
+  </ResourceParams>
+  
     <Resource 
        auth="Container" 
         driverClassName="org.postgresql.Driver" 
@@ -40,6 +57,14 @@
         validationInterval="30000" 
         validationQuery="SELECT 101;"
     />
+    
+    <ResourceParams name="jdbc/test_rpirobotapp_pg">
+    <parameter>
+      <name>maxActive</name>
+      <value>80</value>
+    </parameter>
+  </ResourceParams>
+  
 <Resource 
           name="jdbc/rpirobotapp_mssql" 
           url="jdbc:sqlserver://192.168.9.86\sqlexpress2014;databaseName=rpirobotapp;" 
@@ -84,18 +109,7 @@
           validationInterval="34000"
           fairQueue="true"
   />
-  <ResourceParams name="jdbc/rpirobotapp_pg">
-    <parameter>
-      <name>maxActive</name>
-      <value>80</value>
-    </parameter>
-  </ResourceParams>
-  <ResourceParams name="jdbc/test_rpirobotapp_pg">
-    <parameter>
-      <name>maxActive</name>
-      <value>80</value>
-    </parameter>
-  </ResourceParams>
+  
   <ResourceParams name="jdbc/rpirobotapp_mssql">
     <parameter>
       <name>maxActive</name>
@@ -106,6 +120,21 @@
     <parameter>
       <name>maxActive</name>
       <value>80</value>
+    </parameter>
+  </ResourceParams>
+  -->
+  
+  
+  <ResourceParams name="jdbc/rpirobotapp_sqlite">
+    <parameter>
+      <name>maxActive</name>
+      <value>10</value>
+    </parameter>
+  </ResourceParams>
+  <ResourceParams name="jdbc/test_rpirobotapp_sqlite">
+    <parameter>
+      <name>maxActive</name>
+      <value>20</value>
     </parameter>
   </ResourceParams>
 </Context>

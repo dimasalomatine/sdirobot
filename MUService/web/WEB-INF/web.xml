@@ -10,7 +10,7 @@
         </init-param>
         <init-param>
             <param-name> dbtype </param-name>
-            <param-value> pg </param-value>
+            <param-value> sqlite </param-value>
         </init-param>
         <init-param>
             <param-name> env </param-name>
