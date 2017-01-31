@@ -1,3 +1,19 @@
+/*
+ * Copyright (C) 2017 dmitry
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package webapi;
 
 import java.sql.Connection;
@@ -55,15 +71,18 @@ public class CManagerMap {
         return ret;
     }
 
-    public static boolean enumerate(Context _ctx, NamingEnumeration e, String string) throws NamingException {
+    public static boolean enumerate(Context _ctx, NamingEnumeration e, String string,String __dbtype) throws NamingException {
         while (e.hasMore()) {
             Binding binding = (Binding) e.next();
             Common.debugingLine2D("DataSource binding Name: " + binding.getName());
             // System.out.println("Type: " + binding.getClassName());
             //  System.out.println("Value: " + binding.getObject());
 
+            if(binding.getName().endsWith(__dbtype))
+            {
             DataSource _ds1 = (DataSource) _ctx.lookup("jdbc/" + binding.getName());
             addDs(binding.getName(), _ds1);
+            }
         }
         return !_m_conn.isEmpty();
     }
@@ -76,7 +95,7 @@ public class CManagerMap {
                 Context _ctx = new InitialContext();
                 _ctx = (Context) _ctx.lookup("java:comp/env");
                 NamingEnumeration e = _ctx.listBindings("jdbc");
-                loaded=CManagerMap.enumerate(_ctx, e, "jdbc");
+                loaded=CManagerMap.enumerate(_ctx, e, "jdbc","sqlite");
                 _ctx.close();
                
             } catch (Exception n) {
