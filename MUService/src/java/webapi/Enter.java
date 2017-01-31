@@ -1,7 +1,18 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright (C) 2017 dmitry
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package webapi;
 
@@ -9,6 +20,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -41,7 +53,7 @@ public class Enter extends HttpServlet {
      * @throws javax.servlet.ServletException
      * @see Servlet#init(ServletConfig)
      */
-    @Override
+    /*@Override
     public void init(ServletConfig config) throws ServletException {
         if(sc==null)sc=config;
 
@@ -52,13 +64,13 @@ public class Enter extends HttpServlet {
             _ctx = new InitialContext();
             _ctx = (Context) _ctx.lookup("java:comp/env");
             NamingEnumeration e = _ctx.listBindings("jdbc");
-            CManagerMap.enumerate(_ctx, e, "jdbc");
+            CManagerMap.enumerate(_ctx, e, "jdbc",Info.dbtype);
             _ctx.close();
             }
         } catch (NamingException n) {
             System.out.println(n.getMessage());
         } 
-    }
+    }*/
 
     /**
      * Processes requests for both HTTP
@@ -162,18 +174,32 @@ public class Enter extends HttpServlet {
 
     private String[] getdata(String op, Map<String, String> __params) {
         String[] ret=new String[]{"",""};
+        String lret="";
         switch(op){
             case "main":
                 ret=new String[]{"<p>This service helps to manage all needed parameters of owned MTA<br>with multidomain suport and muliple planc targethosts</p>","\"arr\":[1,2,3,4]"};
                 break;
             case "users":
-                ret=new String[]{"<table border =1 id='idusers'><tbody><tr><th>Id</th><th>Application</th><th>Email</th><th>Status</th><th>Op</th></tr></tbody></table>","\"arr\":[[1,2,\"user1@domain.com\",true],[2,2,\"user2@domain.com\",false],[3,2,\"user3@domain.com\",true]]"};
+                List<String[]> vals=InitStatic.getUsers(__params.get("utype"));
+                for(String v[]:vals){
+                lret+="["+v[0]+",\""+v[1]+"\",\""+v[2]+"\",\""+v[3]+"\"],";
+                }
+                lret+="[]";
+                ret=new String[]{
+                         "<table border =1 id='idusers'><tbody><tr><th>Id</th><th>Type</th><th>Name</th><th>PassKey</th><th>Op</th></tr></tbody></table>"
+                        //,"\"arr\":[[1,\"su\",\"master\",true],[2,2,\"user2@domain.com\",false],[3,2,\"user3@domain.com\",true]]"
+                        ,"\"arr\":["+lret+"]"
+                                };
                 break;
              case "domains":
                 ret=new String[]{"<table border =1 id='iddomains'><tbody><tr><th>Gid</th><th>Domain</th><th>Transport</th><th>Status</th><th>Op</th></tr></tbody></table>","\"arr\":[[1004,\"skyzcrm.co.il\",\"virtual:\",true],[1001,\"connectall.biz\",\"virtual:\",true],[1000,\"mail.connectall.biz\",\"[smtp.hotufi.net]:25\",true],[1,\"domain.com\",\"virtual:\",true],[2,\"domain2.com\",\"local\",false],[3,\"@domain3.com\",\"virtual\",true]]"};
                 break;
+             case "hosts":
+                ret=new String[]{"<table border =1 id='idhosts'><tbody><tr><th>Gid</th><th>Domain</th><th>Transport</th><th>Status</th><th>Op</th></tr></tbody></table>","\"arr\":[[1004,\"skyzcrm.co.il\",\"virtual:\",true],[1001,\"connectall.biz\",\"virtual:\",true],[1000,\"mail.connectall.biz\",\"[smtp.hotufi.net]:25\",true],[1,\"domain.com\",\"virtual:\",true],[2,\"domain2.com\",\"local\",false],[3,\"@domain3.com\",\"virtual\",true]]"};
+                break;
              case "logon":
-                ret=new String[]{"","\"arr\":[\"ok\",\"sessid1\"]"};
+                lret=InitStatic.getloginright(__params.get("user"), __params.get("pass"));
+                ret=new String[]{"","\"arr\":[\""+lret+"\",\"sessid1\"]"};
                 break;
              case "logout":
                 ret=new String[]{"","\"arr\":[\"ok\",\"sessid1\"]"};
